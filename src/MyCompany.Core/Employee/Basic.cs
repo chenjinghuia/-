@@ -8,10 +8,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MyCompany.Employee
 {
     [Table("Basic")]
-    public class Basic : Entity, IHasCreationTime
+    public class Basic : Entity,IHasCreationTime
     {
         public const int MaxYGNameLength = 256;   
         [Required]
+        [ForeignKey(nameof(EmployeeId))]
+        public Record EmployeeRecord { get; set; }
+        public Guid ? EmployeeId { get; set; }
         [StringLength(MaxYGNameLength)]
         public string YGName { get; set; }
         public string Sex { get; set; }
@@ -20,14 +23,13 @@ namespace MyCompany.Employee
         public string Telephone { get; set; }
         public string Introduction { get; set; }
         public DateTime CreationTime { get; set; }
-
+        public string Identity { get; set; }
+        public string Professional { get; set; }
+        public string Qualification { get; set; }
         public TaskState Handle { get; set; }
 
-        [ForeignKey(nameof(EmployeeId))]
-        public Record RecordEmployee { get; set; }
-        public Certificate CertificateEmployee { get; set; }
-        public int? EmployeeId { get; set; }
-        public Basic(string YGname,  int? employeeId = null)
+       
+        public Basic(string YGname,  Guid ? employeeId = null)
             : this()
         {
             YGName = YGname;

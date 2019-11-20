@@ -5,21 +5,22 @@
     ViewBag.ActiveMenu = "EmployeeList"; //Matches with the menu name in SimpleTaskAppNavigationProvider to highlight the menu item
 }
 
-<h2>@L("EmployeeList")</h2>
+    <h2>@L("EmployeeList")</h2>
 
-<div class="row">
-    <div>
-        <ul class="list-group" id="EmployeeList">
-            @foreach (var task in Model.Employees)
-            {
-                <li class="list-group-item">
-                    <span class="pull-right label @Model.GetTaskLabel(task)">@L($"TaskState_{task.Handle}")</span>
-                    <h4 class="list-group-item-heading">@task.YGName</h4>
-                    <div class="list-group-item-text">
-                        @task.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
-                    </div>
-                </li>
-            }
-        </ul>
+    <div class="row">
+        <div>
+            <ul class="list-group" id="EmployeeList">
+                @foreach (var task in Model.Employees)
+                {
+                    <li class="list-group-item">
+                        <span class="pull-right label @Model.GetTaskLabel(task)">@L($"TaskState_{task.Handle}")</span>
+                        <p class="list-group-item-heading">@task.YGName</p>
+                        <p class="list-group-item-heading" style="margin-right:100px;display:inline;">@task.Sex</p>
+                        <div class="list-group-item-text">
+                            @task.CreationTime.ToString("yyyy-MM-dd HH:mm:ss")
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
-</div>

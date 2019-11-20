@@ -10,7 +10,7 @@ using MyCompany.EntityFrameworkCore;
 namespace MyCompany.Migrations
 {
     [DbContext(typeof(MyCompanyDbContext))]
-    [Migration("20191118064856_Initial")]
+    [Migration("20191120005035_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace MyCompany.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int?>("CustomerId");
+                    b.Property<Guid?>("CustomerId");
 
                     b.Property<string>("KHName")
                         .IsRequired()
@@ -50,9 +50,8 @@ namespace MyCompany.Migrations
 
             modelBuilder.Entity("MyCompany.Customers.Order", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("KHName")
                         .IsRequired()
@@ -83,15 +82,20 @@ namespace MyCompany.Migrations
 
                     b.Property<string>("Area");
 
-                    b.Property<int?>("CertificateEmployeeId");
-
                     b.Property<DateTime>("CreationTime");
 
-                    b.Property<int?>("EmployeeId");
+                    b.Property<Guid?>("EmployeeId")
+                        .IsRequired();
 
                     b.Property<byte>("Handle");
 
+                    b.Property<string>("Identity");
+
                     b.Property<string>("Introduction");
+
+                    b.Property<string>("Professional");
+
+                    b.Property<string>("Qualification");
 
                     b.Property<string>("Sex");
 
@@ -100,44 +104,19 @@ namespace MyCompany.Migrations
                     b.Property<string>("TypeService");
 
                     b.Property<string>("YGName")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CertificateEmployeeId");
 
                     b.HasIndex("EmployeeId");
 
                     b.ToTable("Basic");
                 });
 
-            modelBuilder.Entity("MyCompany.Employee.Certificate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Identity");
-
-                    b.Property<string>("Professional");
-
-                    b.Property<string>("Qualification");
-
-                    b.Property<string>("YGName")
-                        .IsRequired()
-                        .HasMaxLength(32);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Certificate");
-                });
-
             modelBuilder.Entity("MyCompany.Employee.Record", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("CustomerData");
 
@@ -167,13 +146,10 @@ namespace MyCompany.Migrations
 
             modelBuilder.Entity("MyCompany.Employee.Basic", b =>
                 {
-                    b.HasOne("MyCompany.Employee.Certificate", "CertificateEmployee")
+                    b.HasOne("MyCompany.Employee.Record", "EmployeeRecord")
                         .WithMany()
-                        .HasForeignKey("CertificateEmployeeId");
-
-                    b.HasOne("MyCompany.Employee.Record", "RecordEmployee")
-                        .WithMany()
-                        .HasForeignKey("EmployeeId");
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

@@ -9,7 +9,7 @@ using System.Text;
 namespace MyCompany.Customers
 {
     [Table(" Order")]
-    public class Order : Entity<int>
+    public class Order : Entity<Guid>
     {
         public const int MaxKHNameLength = 32;
         [Required]

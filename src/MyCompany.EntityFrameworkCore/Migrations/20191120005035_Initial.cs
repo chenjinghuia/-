@@ -12,8 +12,7 @@ namespace MyCompany.Migrations
                 name: " Order",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     KHName = table.Column<string>(maxLength: 32, nullable: false),
                     OrderID = table.Column<int>(nullable: false),
                     OderMoney = table.Column<string>(nullable: true),
@@ -31,8 +30,7 @@ namespace MyCompany.Migrations
                 name: " Record",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Id = table.Column<Guid>(nullable: false),
                     YGName = table.Column<string>(maxLength: 32, nullable: false),
                     Log = table.Column<string>(nullable: true),
                     ServiceStartTime = table.Column<DateTime>(nullable: false),
@@ -46,22 +44,6 @@ namespace MyCompany.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Certificate",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    YGName = table.Column<string>(maxLength: 32, nullable: false),
-                    Identity = table.Column<string>(nullable: true),
-                    Professional = table.Column<string>(nullable: true),
-                    Qualification = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certificate", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Customer",
                 columns: table => new
                 {
@@ -72,7 +54,7 @@ namespace MyCompany.Migrations
                     Address = table.Column<string>(nullable: true),
                     Telephone = table.Column<string>(nullable: true),
                     TransactionNumber = table.Column<int>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: true)
+                    CustomerId = table.Column<Guid>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -91,38 +73,29 @@ namespace MyCompany.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    YGName = table.Column<string>(maxLength: 256, nullable: false),
+                    EmployeeId = table.Column<Guid>(nullable: false),
+                    YGName = table.Column<string>(maxLength: 256, nullable: true),
                     Sex = table.Column<string>(nullable: true),
                     TypeService = table.Column<string>(nullable: true),
                     Area = table.Column<string>(nullable: true),
                     Telephone = table.Column<string>(nullable: true),
                     Introduction = table.Column<string>(nullable: true),
                     CreationTime = table.Column<DateTime>(nullable: false),
-                    Handle = table.Column<byte>(nullable: false),
-                    CertificateEmployeeId = table.Column<int>(nullable: true),
-                    EmployeeId = table.Column<int>(nullable: true)
+                    Identity = table.Column<string>(nullable: true),
+                    Professional = table.Column<string>(nullable: true),
+                    Qualification = table.Column<string>(nullable: true),
+                    Handle = table.Column<byte>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Basic", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Basic_Certificate_CertificateEmployeeId",
-                        column: x => x.CertificateEmployeeId,
-                        principalTable: "Certificate",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
                         name: "FK_Basic_ Record_EmployeeId",
                         column: x => x.EmployeeId,
                         principalTable: " Record",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Basic_CertificateEmployeeId",
-                table: "Basic",
-                column: "CertificateEmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Basic_EmployeeId",
@@ -142,9 +115,6 @@ namespace MyCompany.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customer");
-
-            migrationBuilder.DropTable(
-                name: "Certificate");
 
             migrationBuilder.DropTable(
                 name: " Record");

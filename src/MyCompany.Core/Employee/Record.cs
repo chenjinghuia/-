@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace MyCompany.Employee
 {
     [Table(" Record")]
-    public class Record : Entity<int>
+    public class Record : Entity<Guid>
     {
         public const int MaxYGNameLength = 32;
         [Required]

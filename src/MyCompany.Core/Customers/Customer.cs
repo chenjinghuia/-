@@ -21,8 +21,8 @@ namespace MyCompany.Customers
 
         [ForeignKey(nameof(CustomerId))]
         public Order OrderCustomer { get; set; }
-        public int? CustomerId { get; set; }
-        public Customer(string KHname, int? customerId = null)
+        public Guid ? CustomerId { get; set; }
+        public Customer(string KHname, Guid ? customerId = null)
             : this()
         {
             KHName = KHname;
